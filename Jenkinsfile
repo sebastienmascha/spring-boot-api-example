@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_LOGIN_USR = credentials('DOCKER_HUB_LOGIN_USR')
-        DOCKER_HUB_LOGIN_PSW = credentials('DOCKER_HUB_LOGIN_PSW')
+        DOCKER_HUB = credentials('docker-hub')
     }
 
     triggers {
