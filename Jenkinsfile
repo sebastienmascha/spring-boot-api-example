@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     /* Build the image */
-                    def customImage = docker.build("spring-boot-api-example:latest", "--build-arg JAR_FILE=build/libs/spring-boot-api-example-0.1.0-SNAPSHOT.jar .")
+                    def customImage = docker.build("smascha/spring-boot-api-example:latest", "--build-arg JAR_FILE=build/libs/spring-boot-api-example-0.1.0-SNAPSHOT.jar .")
                     /* Push the container to the custom Registry */
                     customImage.push()
                 }
