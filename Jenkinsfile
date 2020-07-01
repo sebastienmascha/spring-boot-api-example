@@ -17,18 +17,12 @@ pipeline {
                 sh './gradlew test'
             }
         }
-        stage('Build Docker image') {
-            steps {
-                sh './gradlew docker'
-            }
-        }
-        stage('Push Docker image') {
-            environment {
-                DOCKER_HUB_LOGIN = credentials('docker-hub')
-            }
-            steps {
-                sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
-                sh './gradlew dockerPush'
+        stage('Build and push Docker image') {
+            docker.withRegistry('https://registry.example.com', 'credentials-id') {
+                /* Build the image */
+                def customImage = docker.build("spring-boot-api-example:latest", "--build-arg JAR_FILE=build/libs/spring-boot-api-example-0.1.0-SNAPSHOT.jar .")
+                /* Push the container to the custom Registry */
+                customImage.push()
             }
         }
     }
