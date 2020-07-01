@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_HUB = credentials('docker-hub')
-    }
-
     triggers {
         pollSCM '* * * * *'
     }
@@ -27,6 +23,9 @@ pipeline {
             }
         }
         stage('Build and push Docker image') {
+            environment {
+                DOCKER_HUB = credentials('docker-hub')
+            }
             steps {
                 sh 'docker login --username=$DOCKER_HUB_USR --password=$DOCKER_HUB_PSW'
                 script {
