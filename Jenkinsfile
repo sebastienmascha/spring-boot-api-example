@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Building without test"
                 sh './gradlew assemble'
             }
         }
@@ -20,7 +19,7 @@ pipeline {
         }
         stage('Build Docker image') {
             steps {
-                sh 'docker build --build-arg JAR_FILE="build/libs/spring-boot-api-example-0.1.0-SNAPSHOT.jar" -t spring-boot-api-example:latest .'
+                sh './gradlew docker'
             }
         }
         stage('Push Docker image') {
@@ -29,7 +28,7 @@ pipeline {
             }
             steps {
                 sh 'docker login --username=$DOCKER_HUB_LOGIN_USR --password=$DOCKER_HUB_LOGIN_PSW'
-                sh 'docker push spring-boot-api-example:latest'
+                sh './gradlew dockerPush'
             }
         }
     }
