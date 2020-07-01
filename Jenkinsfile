@@ -1,20 +1,25 @@
 pipeline {
-    agent {
-        docker { image 'openjdk:11' }
-    }
+    agent none
 
     triggers {
         pollSCM '* * * * *'
     }
     stages {
-        stage('Build') {
-            steps {
-                sh './gradlew assemble'
+        stage("build and test the project") {
+            agent {
+                docker { image 'openjdk:11' }
             }
-        }
-        stage('Test') {
-            steps {
-                sh './gradlew test'
+            stages {
+                stage('Build') {
+                    steps {
+                        sh './gradlew assemble'
+                    }
+                }
+                stage('Test') {
+                    steps {
+                        sh './gradlew test'
+                    }
+                }
             }
         }
         stage('Build and push Docker image') {
