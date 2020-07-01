@@ -9,6 +9,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                echo "Building without test"
                 sh './gradlew assemble'
             }
         }
